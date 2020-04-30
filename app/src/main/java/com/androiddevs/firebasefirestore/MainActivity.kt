@@ -28,6 +28,28 @@ class MainActivity : AppCompatActivity() {
             val person = Person(firstName, lastName, age)
             savePerson(person)
         }
+
+        btnRetrieveData.setOnClickListener {
+            retrievePersons()
+        }
+    }
+
+    private fun retrievePersons() = CoroutineScope(Dispatchers.IO).launch {
+        try {
+            val querySnapshot = personCollectionRef.get().await()
+            val sb = StringBuilder()
+            for(document in querySnapshot.documents) {
+                val person = document.toObject<Person>()
+                sb.append("$person\n")
+            }
+            withContext(Dispatchers.Main) {
+                tvPersons.text = sb.toString()
+            }
+        } catch(e: Exception) {
+            withContext(Dispatchers.Main) {
+                Toast.makeText(this@MainActivity, e.message, Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     private fun savePerson(person: Person) = CoroutineScope(Dispatchers.IO).launch {

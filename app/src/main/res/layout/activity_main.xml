@@ -24,8 +24,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:hint="Last Name"
         android:ems="10"
+        android:hint="Last Name"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -37,8 +37,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:hint="Age"
         android:ems="10"
+        android:hint="Age"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -56,5 +56,35 @@
         app:layout_constraintStart_toStartOf="@+id/etAge"
         app:layout_constraintTop_toBottomOf="@+id/etAge" />
 
+    <Button
+        android:id="@+id/btnRetrieveData"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Retrieve Data"
+        app:layout_constraintEnd_toEndOf="@+id/btnUploadData"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/btnUploadData"
+        app:layout_constraintTop_toBottomOf="@+id/btnUploadData" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnRetrieveData">
+
+        <TextView
+            android:id="@+id/tvPersons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PERSON DATA"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
