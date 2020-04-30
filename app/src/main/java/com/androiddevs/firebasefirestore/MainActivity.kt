@@ -32,6 +32,11 @@ class MainActivity : AppCompatActivity() {
             updatePerson(oldPerson, newPersonMap)
         }
 
+        btnDeletePerson.setOnClickListener {
+            val oldPerson = getOldPerson()
+            deletePerson(oldPerson)
+        }
+
         btnRetrieveData.setOnClickListener {
             retrievePersons()
         }
@@ -74,6 +79,33 @@ class MainActivity : AppCompatActivity() {
                     sb.append("$person\n")
                 }
                 tvPersons.text = sb.toString()
+            }
+        }
+    }
+
+    private fun deletePerson(person: Person) = CoroutineScope(Dispatchers.IO).launch {
+        val personQuery = personCollectionRef
+            .whereEqualTo("firstName", person.firstName)
+            .whereEqualTo("lastName", person.lastName)
+            .whereEqualTo("age", person.age)
+            .get()
+            .await()
+        if(personQuery.documents.isNotEmpty()) {
+            for(document in personQuery) {
+                try {
+                    personCollectionRef.document(document.id).delete().await()
+                    /*personCollectionRef.document(document.id).update(mapOf(
+                        "firstName" to FieldValue.delete()
+                    )).await()*/
+                } catch (e: Exception) {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@MainActivity, e.message, Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        } else {
+            withContext(Dispatchers.Main) {
+                Toast.makeText(this@MainActivity, "No persons matched the query.", Toast.LENGTH_LONG).show()
             }
         }
     }
