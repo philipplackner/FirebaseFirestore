@@ -75,7 +75,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnRetrieveData">
+        app:layout_constraintTop_toBottomOf="@+id/etTo">
 
         <TextView
             android:id="@+id/tvPersons"
@@ -86,5 +86,31 @@
             android:textSize="18sp" />
 
     </ScrollView>
+
+
+    <EditText
+        android:id="@+id/etFrom"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="From"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toStartOf="@+id/etTo"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnRetrieveData" />
+
+    <EditText
+        android:id="@+id/etTo"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="To"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/etFrom"
+        app:layout_constraintTop_toBottomOf="@+id/btnRetrieveData" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
