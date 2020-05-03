@@ -1,17 +1,18 @@
 package com.androiddevs.firebasefirestore
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.google.firebase.firestore.FieldValue
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import java.lang.StringBuilder
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,6 +41,10 @@ class MainActivity : AppCompatActivity() {
         btnRetrieveData.setOnClickListener {
             retrievePersons()
         }
+
+        btnBatchWrite.setOnClickListener {
+            changeName("53JKc96jvNuI9xMb74MV", "Elon", "Musk")
+        }
     }
 
     private fun getOldPerson(): Person {
@@ -64,6 +69,24 @@ class MainActivity : AppCompatActivity() {
             map["age"] = age.toInt()
         }
         return map
+    }
+
+    private fun changeName(
+        personId: String,
+        newFirstName: String,
+        newLastName: String
+    ) = CoroutineScope(Dispatchers.IO).launch {
+        try {
+            Firebase.firestore.runBatch { batch ->
+                val personRef = personCollectionRef.document(personId)
+                batch.update(personRef, "firstName", newFirstName)
+                batch.update(personRef, "lastName", newLastName)
+            }.await()
+        } catch(e: Exception) {
+            withContext(Dispatchers.Main) {
+                Toast.makeText(this@MainActivity, e.message, Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     private fun subscribeToRealtimeUpdates() {
